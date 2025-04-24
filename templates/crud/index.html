@@ -1,0 +1,97 @@
+{% extends 'base.html' %} 
+{% load static %}
+{% block content %} 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="icon" href="{% static 'image/top-view-notebook-with-bone-calendar-animal-day.jpg' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'favicon.ico' %}">
+</head>
+<body class="loading">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <img src="{% static 'image/preloader.gif' %}" autoplay muted loop>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>To-Do List</h1>
+        </header>
+
+        <!-- Task card container (Initially hidden) -->
+        <div id="card-container" style="display: none;">
+            <!-- Button to switch view back to the table -->
+            <button id="show-table-btn">Show Table</button>
+            <div id="task-cards" class="cards"></div>
+        </div>
+
+        <!-- Responsive table container -->
+        <div class="table-container">
+            <button id="show-cards-btn">Show Cards</button>
+            <table id="items-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Priority</th>
+                        <th>Due Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="items-list"></tbody>
+            </table>
+        </div>
+
+        <!-- Form to add new items -->
+        <form id="add-item-form" method="post">
+            {% csrf_token %}
+            <input type="text" id="name" placeholder="Name" required>
+            <textarea id="description" placeholder="Description" required></textarea>
+            <select id="status" required>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+            <select id="priority" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <input type="date" id="due_date" required>
+            <button type="submit">Add Item</button>
+        </form>        
+
+        <!-- Form to edit items (hidden by default) -->
+        <form id="edit-item-form" method="post" style="display: none;">
+            {% csrf_token %}
+            <input type="hidden" id="edit-id">
+            <input type="text" id="edit-name" placeholder="Name" required>
+            <textarea id="edit-description" placeholder="Description" required></textarea>
+            <select id="edit-status" required>
+                <option value="pending">Pending</option>
+                <option value="in_progress">In Progress</option>
+                <option value="completed">Completed</option>
+            </select>
+            <select id="edit-priority" required>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+            </select>
+            <input type="date" id="edit-due_date" required>
+            <button type="submit">Update Item</button>
+        </form>
+    </div>
+
+    <script src="{% static 'js/main.js' %}" defer></script>
+</body>
+</html>
+
+{% endblock content %}
